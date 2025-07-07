@@ -1,4 +1,14 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stock Helper
+
+A modern stock helper application built with Next.js 15, TypeScript, and Tailwind CSS.
+
+## Features
+
+- **Modern Next.js 15**: Built with the latest Next.js features and App Router
+- **TypeScript**: Full type safety and enhanced developer experience
+- **Tailwind CSS**: Utility-first CSS framework for rapid UI development
+- **Turbopack**: Ultra-fast development builds
+- **ESLint**: Code quality and consistency
 
 ## Getting Started
 
@@ -16,9 +26,17 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
+
+```
+src/
+├── app/          # App Router pages and layouts
+├── components/   # Reusable React components
+├── lib/          # Utility functions and shared logic
+└── types/        # TypeScript type definitions
+```
 
 ## Learn More
 

@@ -1,0 +1,80 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Stock information model
+model Stock {
+  id          String   @id @default(cuid())
+  symbol      String   @unique // e.g., "RELIANCE.NS"
+  name        String   // e.g., "Reliance Industries Limited"
+  exchange    String   // e.g., "NSE", "BSE"
+  sector      String?  // e.g., "Oil & Gas"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  watchlists  WatchlistItem[]
+  priceAlerts PriceAlert[]
+  analyses    StockAnalysis[]
+
+  @@map("stocks")
+}
+
+// User watchlist items
+model WatchlistItem {
+  id        String   @id @default(cuid())
+  stockId   String
+  userId    String?  // For future auth implementation
+  createdAt DateTime @default(now())
+
+  // Relations
+  stock Stock @relation(fields: [stockId], references: [id], onDelete: Cascade)
+
+  @@map("watchlist_items")
+}
+
+// Price alerts for notifications
+model PriceAlert {
+  id          String      @id @default(cuid())
+  stockId     String
+  userId      String?     // For future auth implementation
+  targetPrice Float
+  alertType   AlertType   // "ABOVE" or "BELOW"
+  isActive    Boolean     @default(true)
+  isTriggered Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  triggeredAt DateTime?
+
+  // Relations
+  stock Stock @relation(fields: [stockId], references: [id], onDelete: Cascade)
+
+  @@map("price_alerts")
+}
+
+// Gemini AI analysis results
+model StockAnalysis {
+  id          String   @id @default(cuid())
+  stockId     String
+  analysis    Json     // Store the 10-point analysis from Gemini
+  sentiment   String   // "BUY", "SELL", "HOLD"
+  confidence  Float    // 0-100 confidence score
+  price       Float    // Price at time of analysis
+  createdAt   DateTime @default(now())
+
+  // Relations
+  stock Stock @relation(fields: [stockId], references: [id], onDelete: Cascade)
+
+  @@map("stock_analyses")
+}
+
+enum AlertType {
+  ABOVE
+  BELOW
+}
